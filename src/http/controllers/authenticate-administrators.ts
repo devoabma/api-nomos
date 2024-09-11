@@ -44,6 +44,7 @@ export async function authenticateAdmininistratorControllers(
           {
             sign: {
               sub: administrator.id,
+              expiresIn: '1d',
             },
           },
         )

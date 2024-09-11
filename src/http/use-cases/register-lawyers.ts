@@ -38,7 +38,12 @@ export class RegisterLawyersUseCase {
     birth,
   }: RegisterLawyersUseCaseRequest): Promise<RegisterLawyersUseCaseResponse> {
     /** Busca na API do Protheus */
-    const { data } = await API_PROTHEUS<LawyersProps>(`/${cpf}`)
+    const { data } = await API_PROTHEUS<LawyersProps>('/', {
+      params: {
+        idOrg: 10,
+        param: cpf,
+      },
+    })
 
     /** Formata a data para 02031993 */
     dayjs.extend(utc)

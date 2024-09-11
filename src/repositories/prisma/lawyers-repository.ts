@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { type Lawyers, Prisma } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 
@@ -35,8 +35,61 @@ export class PrismaLawyersRepository implements LawyersInterface {
     return lawyer
   }
 
+  async findMany(page: number) {
+    const lawyers = await prisma.lawyers.findMany({
+      take: 10,
+      skip: (page - 1) * 10,
+      orderBy: {
+        created_at: 'asc',
+      },
+    })
+
+    return lawyers
+  }
+
+  async countAllLawyer() {
+    const lawyers = await prisma.lawyers.count()
+
+    return lawyers
+  }
+
+  async countLawyerApproved(): Promise<number> {
+    const lawyersApproved = await prisma.lawyers.count({
+      where: {
+        informations_accepted: {
+          not: null,
+        },
+      },
+    })
+
+    return lawyersApproved
+  }
+
+  async countLawyerRegistered(): Promise<number> {
+    const lawyersRegistered = await prisma.lawyers.count({
+      where: {
+        registered: {
+          not: null,
+        },
+      },
+    })
+
+    return lawyersRegistered
+  }
+
   async create(data: Prisma.LawyersUncheckedCreateInput) {
     const lawyer = await prisma.lawyers.create({
+      data,
+    })
+
+    return lawyer
+  }
+
+  async save(data: Lawyers) {
+    const lawyer = await prisma.lawyers.update({
+      where: {
+        id: data.id,
+      },
       data,
     })
 

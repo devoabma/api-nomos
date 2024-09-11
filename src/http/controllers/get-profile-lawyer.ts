@@ -18,9 +18,9 @@ export async function getProfileLawyerControllers(app: FastifyInstance) {
             user: z.object({
               id: z.string().uuid(),
               name: z.string(),
-              cpf: z.string(),
-              oab: z.string(),
-              birth: z.string(),
+              cpf: z.string().min(11),
+              oab: z.string().max(7),
+              birth: z.string().min(8),
               email: z.string().email(),
               informations_accepted: z.date().nullable(),
               registered: z.date().nullable(),

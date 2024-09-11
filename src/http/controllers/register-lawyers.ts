@@ -16,7 +16,7 @@ export async function registerLawyerControllers(app: FastifyInstance) {
         summary: 'Registro de um advogado.',
         body: z.object({
           cpf: z.string().min(11),
-          oab: z.string().min(5),
+          oab: z.string().max(7),
           birth: z.string().min(8),
         }),
       },

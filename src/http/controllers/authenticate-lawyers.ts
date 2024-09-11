@@ -37,6 +37,7 @@ export async function authenticateLawyersControllers(app: FastifyInstance) {
           {
             sign: {
               sub: lawyer.id,
+              expiresIn: '1d',
             },
           },
         )
