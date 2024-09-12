@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { verifyAdministrator } from '../middlewares/verify-administrator'
 import { verifyJWT } from '../middlewares/verify-jwt'
 import { NotConfirmLawyerError } from '../use-cases/errors/not-confirm-lawyer-error'
+import { ResourceNotFound } from '../use-cases/errors/resource-not-found-error'
 import { makeConfirmLawyerGerid } from './factories/make-confirm-lawyer-gerid'
 
 export async function confirmLawyerGeridController(app: FastifyInstance) {
@@ -20,6 +21,9 @@ export async function confirmLawyerGeridController(app: FastifyInstance) {
         }),
         response: {
           204: z.null(),
+          404: z.object({
+            message: z.string(),
+          }),
           409: z.object({
             message: z.string(),
           }),
@@ -40,6 +44,12 @@ export async function confirmLawyerGeridController(app: FastifyInstance) {
       } catch (err) {
         if (err instanceof NotConfirmLawyerError) {
           return reply.status(409).send({
+            message: err.message,
+          })
+        }
+
+        if (err instanceof ResourceNotFound) {
+          return reply.status(404).send({
             message: err.message,
           })
         }

@@ -44,8 +44,8 @@ export async function getProfileLawyerControllers(app: FastifyInstance) {
           oab: lawyer.oab,
           birth: lawyer.birth,
           email: lawyer.email,
-          informations_accepted: lawyer.informations_accepted!,
-          registered: lawyer.informations_accepted!,
+          informations_accepted: lawyer.informations_accepted,
+          registered: lawyer.registered,
         },
       })
     },

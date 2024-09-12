@@ -15,7 +15,7 @@ export async function fetchLawyersControllers(app: FastifyInstance) {
         tags: ['lawyers'],
         summary: 'Retorna todos os advogados cadastrados',
         querystring: z.object({
-          page: z.coerce.number().min(1).default(1), // Alterado de 'params' para 'querystring'
+          page: z.coerce.number().min(1).default(1),
         }),
         response: {
           200: z.object({
