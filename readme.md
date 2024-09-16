@@ -34,3 +34,5 @@
 * [X] Um administrador deve ser identificado por um JWT (JSON Web Token)
 * [X] Um advogado deve ser identificado por um JWT (JSON Web Token)
 * [X] A consulta dos dados dos advogados virão de uma API externa
+* [X] Assim que um administrador se cadastra na plataforma é enviado um e-mail com os dados dele
+* [X] Assim que um administrador confirma o advogado com GERID é enviado um e-mail para o advogado com as informações enviadas, inclusive a data do envio

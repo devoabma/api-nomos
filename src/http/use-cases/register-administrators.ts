@@ -5,7 +5,8 @@ import { env } from '@/env'
 import { resend } from '@/lib/resend'
 // import { resend } from '@/lib/resend'
 import type { AdministratorsInterface } from '@/repositories/interfaces/administrators-interface'
-import { getCurrentDateInfo } from '@/utils/get-current-date-info'
+// import { getCurrentDateInfo } from '@/utils/get-current-date-info'
+import { TemplateSendEmailAdministrator } from '@/utils/template-send-email-administrator'
 
 // import { getCurrentDateInfo } from '@/utils/get-current-date-info'
 import { AdministradorAlreadyExists } from './errors/administrator-already-exists'
@@ -54,20 +55,19 @@ export class RegisterAdministratorsUseCase {
       throw new SecurityCodeIncorrect()
     }
 
-    const { day, fullMonth, year } = getCurrentDateInfo()
+    // const { day, fullMonth, year } = getCurrentDateInfo()
 
     // Dispara e-mail de confirmação de registro
     await resend.emails.send({
       from: 'OAB INSS DIGITAL <inssdigital@oabma.com.br>',
       // TODO: Depois alterar o e-mail para produção
       to: 'hilquiasfmelo@hotmail.com',
-      subject: 'Cadastro OAB INSS DIGITAL concluído ✅',
-      html: `
-          <strong>Nome completo: ${name}</strong><br/>
-          <strong>E-mail: ${email}</strong><br/>
-          <strong>Sua senha: ${password}</strong><br/>
-          <strong>Cadastro realizado em ${day} de ${fullMonth} de ${year}<br/>
-        `,
+      subject: 'Cadastro Administrativo OAB INSS DIGITAL ✅',
+      react: TemplateSendEmailAdministrator({
+        name,
+        email,
+        password,
+      }),
     })
 
     const administrator = await this.administratorsInterface.create({
