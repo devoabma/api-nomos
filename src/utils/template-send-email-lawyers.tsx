@@ -44,10 +44,10 @@ export function TemplateSendEmailLawyers({
           <Section className="bg-gradient-to-r from-blue-600 to-blue-800 p-12">
             <Row>
               <Column align="center">
-                <Heading className="text-3xl font-bold text-white m-0 text-center">
+                <Heading className="text-3xl font-bold text-blue-800 m-0 text-center">
                   INSS Digital OAB
                 </Heading>
-                <Text className="text-blue-200 text-lg m-0 text-center">
+                <Text className="text-blue-400 text-lg m-0 text-center">
                   Informações do Advogado(a)
                 </Text>
               </Column>
