@@ -75,7 +75,7 @@ export function TemplateSendEmailAdministrator({
             </Section>
             <Text className="text-gray-700 mb-8 text-lg">
               Por favor, verifique se todas as informações estão corretas. Caso
-              haja alguma discrepância, entre em contato conosco imediatamente.
+              haja alguma discrepância, entre em contato conosco.
             </Text>
             <Hr className="border-gray-300 my-8" />
             <Text className="text-base text-gray-600 text-center">

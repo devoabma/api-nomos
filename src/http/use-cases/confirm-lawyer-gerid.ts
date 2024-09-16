@@ -1,11 +1,9 @@
 import type { Lawyers } from '@prisma/client'
 
 import { resend } from '@/lib/resend'
-// import { resend } from '@/lib/resend'
 import type { LawyersInterface } from '@/repositories/interfaces/lawyers-interface'
-import { getCurrentDateInfo } from '@/utils/get-current-date-info'
+import { TemplateSendEmailLawyers } from '@/utils/template-send-email-lawyers'
 
-// import { getCurrentDateInfo } from '@/utils/get-current-date-info'
 import { NotConfirmLawyerError } from './errors/not-confirm-lawyer-error'
 import { ResourceNotFound } from './errors/resource-not-found-error'
 
@@ -35,22 +33,19 @@ export class ConfirmLawyerGerid {
       throw new NotConfirmLawyerError()
     }
 
-    const { day, fullMonth, year } = getCurrentDateInfo()
-
     // Dispara e-mail de confirmação de registro para o advogado
     await resend.emails.send({
       from: 'OAB INSS DIGITAL <inssdigital@oabma.com.br>',
-      // TODO: Depois alterar o e-mail para produção
+      // TODO: Depois alterar o e-mail para o do advogado
       to: 'hilquiasfmelo@hotmail.com',
       subject: 'Confirmação de cadastro no GERID ✅',
-      html: `
-          <strong>Nome completo: ${lawyer.name}</strong><br/>
-          <strong>CPF: ${lawyer.cpf}</strong><br/>
-          <strong>E-mail: ${lawyer.oab}</strong><br/>
-          <strong>E-mail: ${lawyer.email}</strong><br/>
-          <strong>E-mail: ${lawyer.birth}</strong><br/>
-          <strong>Cadastro realizado em ${day} de ${fullMonth} de ${year}<br/>
-        `,
+      react: TemplateSendEmailLawyers({
+        name: lawyer.name,
+        cpf: lawyer.cpf,
+        oab: lawyer.oab,
+        email: lawyer.email,
+        birth: lawyer.birth,
+      }),
     })
 
     /** Seta a data que o administrador confirmou o cadastro do advogado no GERID */
