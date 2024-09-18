@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   service-api-nomos:
     container_name: container-api-nomos
@@ -10,3 +8,17 @@ services:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
       - POSTGRESQL_DATABASE=db-api-nomos
+    volumes:
+      - pgdata:/bitnami/postgresql  # Volume persistente para os dados do PostgreSQL
+    networks:
+      - api-nomos-network           # Usar rede existente
+
+# Definir volumes
+volumes:
+  pgdata:
+    driver: local  # Usar driver local para volumes persistentes
+
+# Definir redes
+networks:
+  api-nomos-network:
+    external: true  # Indica que esta rede já existe

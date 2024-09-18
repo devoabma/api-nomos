@@ -7,6 +7,7 @@ const envSchema = z.object({
   // coerce => Busca algum dado e converte para um formato dele.
   PORT: z.coerce.number().default(3891),
   DATABASE_URL: z.string().url(),
+  WEB_URL: z.string().url(),
   API_PROTHEUS: z.string().url(),
   SECURITY_CODE: z.string(),
   RESEND_API_KEY: z.string(),

@@ -19,7 +19,7 @@ export async function authenticateAdmininistratorControllers(
           email: z.string().email('Esse campo deve ser um e-mail válido.'),
           password: z
             .string()
-            .min(8, 'A senha deve conter no mínimo 8 caracteres.'),
+            .min(6, 'A senha deve conter no mínimo 6 caracteres.'),
         }),
       },
     },
@@ -49,9 +49,17 @@ export async function authenticateAdmininistratorControllers(
           },
         )
 
-        return reply.status(200).send({
-          token,
-        })
+        return reply
+          .setCookie('auth', token, {
+            path: '/',
+            httpOnly: true,
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24,
+          })
+          .status(200)
+          .send({
+            token,
+          })
       } catch (err) {
         if (err instanceof InvalidCredentialsError) {
           return reply.status(400).send({

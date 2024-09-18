@@ -1,3 +1,4 @@
+import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
@@ -37,7 +38,12 @@ app.register(fastifySwaggerUI, {
   routePrefix: '/docs',
 })
 
-app.register(fastifyCors)
+app.register(fastifyCors, {
+  origin: env.WEB_URL,
+  credentials: true,
+})
+
+app.register(fastifyCookie)
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
