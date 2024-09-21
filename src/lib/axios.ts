@@ -5,7 +5,3 @@ import { env } from '@/env'
 export const API_PROTHEUS = axios.create({
   baseURL: env.API_PROTHEUS,
 })
-
-export const API_FAKE = axios.create({
-  baseURL: 'http://localhost:3000',
-})

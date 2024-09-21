@@ -1,41 +1,20 @@
 import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
-import fastifySwagger from '@fastify/swagger'
-import fastifySwaggerUI from '@fastify/swagger-ui'
 import { fastify } from 'fastify'
-import {
-  jsonSchemaTransform,
-  serializerCompiler,
-  validatorCompiler,
-  ZodTypeProvider,
-} from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
 
 import { env } from './env'
 import { appRouter } from './http/routes'
 
-export const app = fastify().withTypeProvider<ZodTypeProvider>()
+export const app = fastify()
 
-// Processo de transformação dos dados de entrada e saída das rotas da aplicação.
-app.setSerializerCompiler(serializerCompiler)
-app.setValidatorCompiler(validatorCompiler)
-
-app.register(fastifySwagger, {
-  openapi: {
-    info: {
-      title: 'API Nomos',
-      description:
-        'API privada do sistema de solicitações feitas pelos advogados ao Inss Digital GERID.',
-      version: '1.0.0',
-    },
-    servers: [],
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: '@nomos-auth',
+    signed: false,
   },
-  transform: jsonSchemaTransform,
-})
-
-app.register(fastifySwaggerUI, {
-  routePrefix: '/docs',
 })
 
 app.register(fastifyCors, {
@@ -44,10 +23,6 @@ app.register(fastifyCors, {
 })
 
 app.register(fastifyCookie)
-
-app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
-})
 
 app.register(appRouter)
 

@@ -1,62 +1,49 @@
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-import { verifyAdministrator } from '../middlewares/verify-administrator'
-import { verifyJWT } from '../middlewares/verify-jwt'
+import { LawyerAlreadyRegistered } from '../use-cases/errors/lawyer-already-registered'
 import { NotConfirmLawyerError } from '../use-cases/errors/not-confirm-lawyer-error'
 import { ResourceNotFound } from '../use-cases/errors/resource-not-found-error'
 import { makeConfirmLawyerGerid } from './factories/make-confirm-lawyer-gerid'
 
-export async function confirmLawyerGeridController(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().patch(
-    '/lawyer/:lawyerId/confirm',
-    {
-      onRequest: [verifyJWT, verifyAdministrator('ADMIN')],
-      schema: {
-        tags: ['lawyers'],
-        summary: 'Confirma o advogado cadastrado no GERID',
-        params: z.object({
-          lawyerId: z.string().uuid(),
-        }),
-        response: {
-          204: z.null(),
-          404: z.object({
-            message: z.string(),
-          }),
-          409: z.object({
-            message: z.string(),
-          }),
-        },
-      },
-    },
-    async (request, reply) => {
-      try {
-        const { lawyerId } = request.params
+export async function confirmLawyerGeridController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const confirmLawyerParamsSchema = z.object({
+    lawyerId: z.string().uuid(),
+  })
 
-        const confirmLawyerGeridUsecase = makeConfirmLawyerGerid()
+  const { lawyerId } = confirmLawyerParamsSchema.parse(request.params)
 
-        await confirmLawyerGeridUsecase.execute({
-          lawyerId,
-        })
+  try {
+    const confirmLawyerGeridUsecase = makeConfirmLawyerGerid()
 
-        return reply.status(204).send()
-      } catch (err) {
-        if (err instanceof NotConfirmLawyerError) {
-          return reply.status(409).send({
-            message: err.message,
-          })
-        }
+    await confirmLawyerGeridUsecase.execute({
+      lawyerId,
+    })
 
-        if (err instanceof ResourceNotFound) {
-          return reply.status(404).send({
-            message: err.message,
-          })
-        }
+    return reply.status(204).send()
+  } catch (err) {
+    if (err instanceof ResourceNotFound) {
+      return reply.status(404).send({
+        message: err.message,
+      })
+    }
 
-        // Uma camada acima tratará esse erro.
-        throw err
-      }
-    },
-  )
+    if (err instanceof NotConfirmLawyerError) {
+      return reply.status(409).send({
+        message: err.message,
+      })
+    }
+
+    if (err instanceof LawyerAlreadyRegistered) {
+      return reply.status(409).send({
+        message: err.message,
+      })
+    }
+
+    // Uma camada acima tratará esse erro.
+    throw err
+  }
 }

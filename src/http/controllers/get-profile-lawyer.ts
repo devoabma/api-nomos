@@ -1,53 +1,27 @@
-import type { FastifyInstance } from 'fastify'
-import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { z } from 'zod'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { verifyJWT } from '../middlewares/verify-jwt'
 import { makeGetProfileLawyer } from './factories/make-get-profile-lawyer'
 
-export async function getProfileLawyerControllers(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().get(
-    '/lawyer/me',
-    {
-      onRequest: [verifyJWT],
-      schema: {
-        tags: ['lawyers'],
-        summary: 'Busca o perfil de um advogado autenticado',
-        response: {
-          200: z.object({
-            user: z.object({
-              id: z.string().uuid(),
-              name: z.string(),
-              cpf: z.string().min(11),
-              oab: z.string().max(7),
-              birth: z.string().min(8),
-              email: z.string().email(),
-              informations_accepted: z.date().nullable(),
-              registered: z.date().nullable(),
-            }),
-          }),
-        },
-      },
-    },
-    async (request, reply) => {
-      const getProfileLawyerUseCase = makeGetProfileLawyer()
+export async function getProfileLawyerControllers(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
+  const getProfileLawyerUseCase = makeGetProfileLawyer()
 
-      const { lawyer } = await getProfileLawyerUseCase.execute({
-        lawyerId: request.user.sub,
-      })
+  const { lawyer } = await getProfileLawyerUseCase.execute({
+    lawyerId: request.user.sub,
+  })
 
-      return reply.status(200).send({
-        user: {
-          id: lawyer.id,
-          name: lawyer.name,
-          cpf: lawyer.cpf,
-          oab: lawyer.oab,
-          birth: lawyer.birth,
-          email: lawyer.email,
-          informations_accepted: lawyer.informations_accepted,
-          registered: lawyer.registered,
-        },
-      })
+  return reply.status(200).send({
+    user: {
+      id: lawyer.id,
+      name: lawyer.name,
+      cpf: lawyer.cpf,
+      oab: lawyer.oab,
+      birth: lawyer.birth,
+      email: lawyer.email,
+      informations_accepted: lawyer.informations_accepted,
+      registered: lawyer.registered,
     },
-  )
+  })
 }

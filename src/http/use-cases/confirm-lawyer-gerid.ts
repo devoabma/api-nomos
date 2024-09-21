@@ -4,6 +4,7 @@ import { resend } from '@/lib/resend'
 import type { LawyersInterface } from '@/repositories/interfaces/lawyers-interface'
 import { TemplateSendEmailLawyers } from '@/utils/template-send-email-lawyers'
 
+import { LawyerAlreadyRegistered } from './errors/lawyer-already-registered'
 import { NotConfirmLawyerError } from './errors/not-confirm-lawyer-error'
 import { ResourceNotFound } from './errors/resource-not-found-error'
 
@@ -31,6 +32,10 @@ export class ConfirmLawyerGerid {
 
     if (!lawyer.informations_accepted) {
       throw new NotConfirmLawyerError()
+    }
+
+    if (lawyer.registered) {
+      throw new LawyerAlreadyRegistered()
     }
 
     // Dispara e-mail de confirmação de registro para o advogado

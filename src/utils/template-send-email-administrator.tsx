@@ -28,7 +28,7 @@ export function TemplateSendEmailAdministrator({
   return (
     <Html>
       <Head />
-      <Preview>Informações do Usuário - INSS Digital OAB</Preview>
+      <Preview>Informações do Administrador</Preview>
       <Tailwind>
         <Body className="bg-gray-100 font-sans">
           <Container className="bg-white shadow-lg rounded-lg overflow-hidden max-w-2xl mx-auto my-12">

@@ -21,7 +21,6 @@ interface RegisterAdministratorsUseCaseRequest {
 
 interface RegisterAdministratorsUseCaseResponse {
   administrator: Administrators
-  // statusSendEmail: boolean
 }
 
 export class RegisterAdministratorsUseCase {
