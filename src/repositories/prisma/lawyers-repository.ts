@@ -35,12 +35,37 @@ export class PrismaLawyersRepository implements LawyersInterface {
     return lawyer
   }
 
-  async findMany(page: number) {
+  async findMany(
+    pageIndex: number,
+    name?: string,
+    cpf?: string,
+    email?: string,
+  ) {
     const lawyers = await prisma.lawyers.findMany({
       take: 10,
-      skip: (page - 1) * 10,
-      orderBy: {
-        created_at: 'asc',
+      skip: (pageIndex - 1) * 10,
+      where: {
+        ...(name && { name: { contains: name, mode: 'insensitive' } }), // Filtro por nome, insensível a maiúsculas/minúsculas
+        ...(cpf && { cpf }),
+        ...(email && { email: { contains: email, mode: 'insensitive' } }),
+      },
+      orderBy: [
+        { registered: 'desc' }, // Os primeiros serão os últimos
+        { informations_accepted: 'asc' }, // Os últimos serão os primeiros
+      ],
+      select: {
+        id: true,
+        name: true,
+        cpf: true,
+        oab: true,
+        email: true,
+        birth: true,
+        telephone: true,
+        informations_accepted: true,
+        registered: true,
+        role: true,
+        created_at: true,
+        updated_at: true,
       },
     })
 

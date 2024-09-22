@@ -37,7 +37,7 @@ export class RegisterLawyersUseCase {
     oab,
     birth,
   }: RegisterLawyersUseCaseRequest): Promise<RegisterLawyersUseCaseResponse> {
-    /** Busca na API do Protheus */
+    /** Busca na API do Protheus que retorna os dados */
     const { data } = await API_PROTHEUS<LawyersProps>('/', {
       params: {
         idOrg: 10,

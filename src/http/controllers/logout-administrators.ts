@@ -13,7 +13,7 @@ export async function logoutAdmininistratorControllers(
   })
 
   return reply
-    .clearCookie('@nomos-auth-admin', {
+    .clearCookie('@nomos-auth', {
       path: '/',
     })
     .status(200)

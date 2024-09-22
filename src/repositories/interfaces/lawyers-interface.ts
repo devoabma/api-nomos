@@ -7,7 +7,12 @@ export interface LawyersInterface {
   countAllLawyer(): Promise<number>
   countLawyerApproved(): Promise<number>
   countLawyerRegistered(): Promise<number>
-  findMany(page: number): Promise<Lawyers[]>
+  findMany(
+    pageIndex: number,
+    name?: string,
+    cpf?: string,
+    email?: string,
+  ): Promise<Lawyers[]>
   create(data: Prisma.LawyersUncheckedCreateInput): Promise<Lawyers>
   save(lawyer: Lawyers): Promise<Lawyers>
 }

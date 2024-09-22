@@ -8,15 +8,21 @@ export async function fetchLawyersControllers(
   reply: FastifyReply,
 ) {
   const querySchema = z.object({
-    page: z.coerce.number().min(1).default(1),
+    pageIndex: z.coerce.number().min(1).default(1),
+    name: z.string().optional(),
+    cpf: z.string().optional(),
+    email: z.string().optional(),
   })
 
-  const { page } = querySchema.parse(request.query)
+  const { pageIndex, name, cpf, email } = querySchema.parse(request.query)
 
   const fetchLawyersUseCase = makeFetchLawyers()
 
   const { lawyers } = await fetchLawyersUseCase.execute({
-    page,
+    pageIndex,
+    name,
+    cpf,
+    email,
   })
 
   return reply.status(200).send({ lawyers })

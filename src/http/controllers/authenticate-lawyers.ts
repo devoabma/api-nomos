@@ -41,7 +41,6 @@ export async function authenticateLawyersControllers(
         path: '/',
         httpOnly: true,
         sameSite: true,
-        secure: true,
         maxAge: 60 * 60 * 24,
       })
       .status(200)

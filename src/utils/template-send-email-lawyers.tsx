@@ -39,7 +39,7 @@ export function TemplateSendEmailLawyers({
   return (
     <Html>
       <Head />
-      <Preview>Informações do Usuário</Preview>
+      <Preview>Informações do Advogado(a)</Preview>
       <Tailwind>
         <Body className="bg-gray-100 font-sans">
           <Container className="bg-white shadow-lg rounded-lg overflow-hidden max-w-2xl mx-auto my-12">
@@ -101,7 +101,7 @@ export function TemplateSendEmailLawyers({
                 </Row>
               </Section>
               <Text className="text-gray-700 mb-8 text-lg">
-                Cadastro no GERID realizado em ${day} de ${fullMonth} de ${year}
+                Cadastro no GERID realizado em {day} de {fullMonth} de {year}
               </Text>
               <Hr className="border-gray-300 my-8" />
               <Text className="text-gray-700 mb-8 text-lg">

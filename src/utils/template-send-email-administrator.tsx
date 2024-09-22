@@ -14,6 +14,8 @@ import {
 } from '@react-email/components'
 import * as React from 'react'
 
+import { getCurrentDateInfo } from './get-current-date-info'
+
 interface TemplateSendEmailAdministratorProps {
   name: string
   email: string
@@ -25,6 +27,8 @@ export function TemplateSendEmailAdministrator({
   email,
   password,
 }: TemplateSendEmailAdministratorProps) {
+  const { day, fullMonth, year } = getCurrentDateInfo()
+
   return (
     <Html>
       <Head />
@@ -75,6 +79,10 @@ export function TemplateSendEmailAdministrator({
                   </Column>
                 </Row>
               </Section>
+              <Text className="text-gray-700 mb-8 text-lg">
+                Cadastro realizado em ${day} de ${fullMonth} de ${year}
+              </Text>
+              <Hr className="border-gray-300 my-8" />
               <Text className="text-gray-700 mb-8 text-lg">
                 Por favor, verifique se todas as informações estão corretas.
                 Caso haja alguma discrepância, entre em contato conosco.

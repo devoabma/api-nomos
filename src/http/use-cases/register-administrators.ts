@@ -41,10 +41,10 @@ export class RegisterAdministratorsUseCase {
     // const { day, fullMonth, year } = getCurrentDateInfo()
 
     // Busca no banco de dados se tem algum usuário criado com esse e-mail.
-    const adminWithSameEmail =
+    const searchAdministrator =
       await this.administratorsInterface.findByEmail(email)
 
-    if (adminWithSameEmail) {
+    if (email === searchAdministrator?.email) {
       throw new AdministradorAlreadyExists()
     }
 
@@ -61,7 +61,7 @@ export class RegisterAdministratorsUseCase {
       from: 'OAB INSS DIGITAL <inssdigital@oabma.com.br>',
       // TODO: Depois alterar o e-mail para produção
       to: 'hilquiasfmelo@hotmail.com',
-      subject: 'Cadastro Administrativo OAB INSS DIGITAL ✅',
+      subject: 'Cadastro Administrativo ✅',
       react: TemplateSendEmailAdministrator({
         name,
         email,
