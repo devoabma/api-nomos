@@ -2,10 +2,11 @@ import type { Lawyers } from '@prisma/client'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
-import { API_PROTHEUS } from '@/lib/axios'
+import { API_PROTHEUS, API_PROTHEUS_SITUATION } from '@/lib/axios'
 import type { LawyersInterface } from '@/repositories/interfaces/lawyers-interface'
 
 import { LawyerAlreadyExists } from './errors/lawyer-already-exists'
+import { LawyerDefaulterError } from './errors/lawyer-defaulter-error'
 import { LawyerNotFound } from './errors/lawyer-not-found'
 
 interface RegisterLawyersUseCaseRequest {
@@ -37,6 +38,13 @@ export class RegisterLawyersUseCase {
     oab,
     birth,
   }: RegisterLawyersUseCaseRequest): Promise<RegisterLawyersUseCaseResponse> {
+    /** Busca na API do Protheus a situação financeira do advogado(a) */
+    const { data: dataStatus } = await API_PROTHEUS_SITUATION(`/${cpf}`)
+
+    if (!dataStatus) {
+      throw new LawyerDefaulterError()
+    }
+
     /** Busca na API do Protheus que retorna os dados */
     const { data } = await API_PROTHEUS<LawyersProps>('/', {
       params: {

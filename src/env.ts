@@ -9,6 +9,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   WEB_URL: z.string().url(),
   API_PROTHEUS: z.string().url(),
+  API_PROTHEUS_SITUATION: z.string().url(),
   SECURITY_CODE: z.string(),
   RESEND_API_KEY: z.string(),
   JWT_SECRET: z.string(),

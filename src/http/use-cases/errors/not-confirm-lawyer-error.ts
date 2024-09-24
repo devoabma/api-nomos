@@ -1,5 +1,5 @@
 export class NotConfirmLawyerError extends Error {
   constructor() {
-    super('Ação proibida! Pois esse advogado ainda não confirmou seus dados.')
+    super('Ação proibida! Esse advogado ainda não confirmou seus dados.')
   }
 }

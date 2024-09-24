@@ -3,6 +3,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 import { LawyerAlreadyExists } from '../use-cases/errors/lawyer-already-exists'
+import { LawyerDefaulterError } from '../use-cases/errors/lawyer-defaulter-error'
 import { LawyerNotFound } from '../use-cases/errors/lawyer-not-found'
 import { makeRegisterLawyer } from './factories/make-register-lawyer'
 
@@ -30,6 +31,12 @@ export async function registerLawyerControllers(
     if (err instanceof AxiosError) {
       return reply.status(404).send({
         message: 'Advogado não encontrado ou dados inconsistentes.',
+      })
+    }
+
+    if (err instanceof LawyerDefaulterError) {
+      return reply.status(401).send({
+        message: err.message,
       })
     }
 

@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
+import { LawyerLoginDefaulterError } from '../use-cases/errors/lawyer-login-defaulter-error'
 import { LawyerNotFound } from '../use-cases/errors/lawyer-not-found'
 import { makeAuthenticateLawyers } from './factories/make-authenticate-lawyers'
 
@@ -50,6 +51,12 @@ export async function authenticateLawyersControllers(
   } catch (err) {
     if (err instanceof LawyerNotFound) {
       return reply.status(400).send({
+        message: err.message,
+      })
+    }
+
+    if (err instanceof LawyerLoginDefaulterError) {
+      return reply.status(401).send({
         message: err.message,
       })
     }

@@ -1,7 +1,9 @@
 import type { Lawyers } from '@prisma/client'
 
+import { API_PROTHEUS_SITUATION } from '@/lib/axios'
 import type { LawyersInterface } from '@/repositories/interfaces/lawyers-interface'
 
+import { LawyerLoginDefaulterError } from './errors/lawyer-login-defaulter-error'
 import { LawyerNotFound } from './errors/lawyer-not-found'
 
 interface AuthenticateLawyersUseCaseRequest {
@@ -31,6 +33,13 @@ export class AuthenticateLawyersUseCase {
 
     if (oab !== lawyer.oab) {
       throw new LawyerNotFound()
+    }
+
+    /** Busca na API do Protheus a situação financeira do advogado(a) */
+    const { data: dataStatus } = await API_PROTHEUS_SITUATION(`/${cpf}`)
+
+    if (!dataStatus) {
+      throw new LawyerLoginDefaulterError()
     }
 
     return { lawyer }

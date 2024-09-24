@@ -1,5 +1,5 @@
 export class LawyerNotFound extends Error {
   constructor() {
-    super('Advogado não encontrado ou dados inconsistentes')
+    super('Advogado não encontrado ou dados inconsistentes.')
   }
 }

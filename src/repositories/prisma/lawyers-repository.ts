@@ -48,6 +48,9 @@ export class PrismaLawyersRepository implements LawyersInterface {
         ...(name && { name: { contains: name, mode: 'insensitive' } }), // Filtro por nome, insensível a maiúsculas/minúsculas
         ...(cpf && { cpf }),
         ...(email && { email: { contains: email, mode: 'insensitive' } }),
+        informations_accepted: {
+          not: null,
+        },
       },
       orderBy: [
         { registered: 'desc' }, // Os primeiros serão os últimos
@@ -78,7 +81,7 @@ export class PrismaLawyersRepository implements LawyersInterface {
     return lawyers
   }
 
-  async countLawyerApproved(): Promise<number> {
+  async countLawyerApproved() {
     const lawyersApproved = await prisma.lawyers.count({
       where: {
         informations_accepted: {
@@ -90,7 +93,7 @@ export class PrismaLawyersRepository implements LawyersInterface {
     return lawyersApproved
   }
 
-  async countLawyerRegistered(): Promise<number> {
+  async countLawyerRegistered() {
     const lawyersRegistered = await prisma.lawyers.count({
       where: {
         registered: {
