@@ -13,8 +13,8 @@ export async function registerLawyerControllers(
 ) {
   const registerBodySchema = z.object({
     cpf: z.string().min(11),
-    oab: z.string().max(7),
-    birth: z.string().min(8),
+    oab: z.string().min(1),
+    birth: z.string().min(1),
   })
 
   const { cpf, oab, birth } = registerBodySchema.parse(request.body)

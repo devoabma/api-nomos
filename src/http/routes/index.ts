@@ -13,6 +13,7 @@ import { logoutAdmininistratorControllers } from '../controllers/logout-administ
 import { logoutLawyerControllers } from '../controllers/logout-lawyer'
 import { registerAdmininistratorControllers } from '../controllers/register-administrators'
 import { registerLawyerControllers } from '../controllers/register-lawyers'
+import { removeLawyerGeridController } from '../controllers/remove-lawyer-gerid'
 import { validateDataLawyerController } from '../controllers/validate-data-lawyer'
 import { verifyAdministrator } from '../middlewares/verify-administrator'
 import { verifyJWT } from '../middlewares/verify-jwt'
@@ -57,6 +58,12 @@ export async function appRouter(app: FastifyInstance) {
     '/lawyer/:lawyerId/confirm',
     { onRequest: [verifyJWT, verifyAdministrator('ADMIN')] },
     confirmLawyerGeridController,
+  )
+
+  app.patch(
+    '/lawyer/:lawyerId/remove',
+    { onRequest: [verifyJWT, verifyAdministrator('ADMIN')] },
+    removeLawyerGeridController,
   )
 
   app.get(
