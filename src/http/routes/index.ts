@@ -20,6 +20,7 @@ import { verifyJWT } from '../middlewares/verify-jwt'
 
 export async function appRouter(app: FastifyInstance) {
   /** Administradores */
+
   app.post('/administrator/register', registerAdmininistratorControllers)
 
   app.post('/administrator/sessions', authenticateAdmininistratorControllers)
