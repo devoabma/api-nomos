@@ -75,6 +75,18 @@ export class PrismaLawyersRepository implements LawyersInterface {
     return lawyers
   }
 
+  async findAllLawyers() {
+    const lawyers = await prisma.lawyers.findMany({
+      orderBy: [
+        {
+          created_at: 'asc',
+        },
+      ],
+    })
+
+    return lawyers
+  }
+
   async countAllLawyer() {
     const lawyers = await prisma.lawyers.count()
 

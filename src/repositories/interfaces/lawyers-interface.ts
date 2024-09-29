@@ -7,6 +7,7 @@ export interface LawyersInterface {
   countAllLawyer(): Promise<number>
   countLawyerApproved(): Promise<number>
   countLawyerRegistered(): Promise<number>
+  findAllLawyers(): Promise<Lawyers[]>
   findMany(
     pageIndex: number,
     name?: string,

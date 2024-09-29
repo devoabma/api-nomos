@@ -80,7 +80,7 @@ export function TemplateSendEmailAdministrator({
                 </Row>
               </Section>
               <Text className="text-gray-700 mb-8 text-lg">
-                Cadastro realizado em ${day} de ${fullMonth} de ${year}
+                Cadastro realizado em {day} de {fullMonth} de {year}
               </Text>
               <Hr className="border-gray-300 my-8" />
               <Text className="text-gray-700 mb-8 text-lg">

@@ -4,6 +4,7 @@ import { authenticateAdmininistratorControllers } from '../controllers/authentic
 import { authenticateLawyersControllers } from '../controllers/authenticate-lawyers'
 import { confirmLawyerGeridController } from '../controllers/confirm-lawyer-gerid'
 import { fetchLawyersControllers } from '../controllers/fetch-lawyers'
+import { getAllLawyersController } from '../controllers/get-all-lawyers'
 import { getLawyersApprovedMetrics } from '../controllers/get-lawyers-approved-metrics'
 import { getLawyersMetrics } from '../controllers/get-lawyers-metrics'
 import { getLawyersRegisteredMetrics } from '../controllers/get-lawyers-registered-metrics'
@@ -71,6 +72,12 @@ export async function appRouter(app: FastifyInstance) {
     '/lawyers/metrics/registered',
     { onRequest: [verifyJWT, verifyAdministrator('ADMIN')] },
     getLawyersRegisteredMetrics,
+  )
+
+  app.get(
+    '/lawyers/all',
+    { onRequest: [verifyJWT, verifyAdministrator('ADMIN')] },
+    getAllLawyersController,
   )
 
   // /** Advogados */
