@@ -14,19 +14,28 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    # Configura o Node.js versão 20
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Instala o pnpm
     - uses: pnpm/action-setup@v4
       with:
         version: 9
 
+    # Instala as dependências do projeto
     - name: Instala dependências do PNPM
       run: pnpm install
 
+    # Executa a build do projeto usando o TSUP
     - name: Executa a build com o TSUP
       run: pnpm build
 
+    # Copia a pasta de build para o servidor NGINX
     - name: Copia pasta build para o Servidor NGINX OAB
       uses: appleboy/scp-action@v0.1.7
       with:
@@ -36,4 +45,3 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         source: "build"
         target: "teste"
-    
