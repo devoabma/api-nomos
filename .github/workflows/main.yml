@@ -16,6 +16,10 @@ jobs:
         node-version: [20.x]
 
     steps:
+    # Checkout do repositório
+    - name: Checkout do repositório
+      uses: actions/checkout@v3
+
     # Configura o Node.js versão 20
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -35,7 +39,7 @@ jobs:
     - name: Executa a build com o TSUP
       run: pnpm build
 
-    # Copia a pasta de build para o servidor NGINX
+    # Copia a pasta build para o servidor NGINX
     - name: Copia pasta build para o Servidor NGINX OAB
       uses: appleboy/scp-action@v0.1.7
       with:
