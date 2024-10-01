@@ -47,5 +47,23 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
-        source: "."
+        source: ".,!node_modules"
         target: "~/oabma/apis/api-nomos"
+
+    # Executa todo processo de instalacao, migrations e restart do Servidor 
+    - name: Executa todo processo de instalacao, migrations e restart do Servidor NGINX OAB
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd ~/oabma/apis/api-nomos
+          pnpm install
+          pnpm prisma migrate deploy
+          pm2 restart api-nomos
+
+          
+
+  
