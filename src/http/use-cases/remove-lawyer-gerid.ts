@@ -26,11 +26,6 @@ export class RemoveLawyerGeridUseCase {
       throw new ResourceNotFound()
     }
 
-    console.log({
-      antes: lawyer.registered,
-      antes2: lawyer.informations_accepted,
-    })
-
     /** Seta as datas de aprovação e registro com nulos, para o advogado poder confirmar novamente. */
     if (lawyer.registered) {
       lawyer.registered = null
@@ -41,11 +36,6 @@ export class RemoveLawyerGeridUseCase {
     }
 
     await this.lawyersInterface.save(lawyer)
-
-    console.log({
-      depois: lawyer.registered,
-      depois2: lawyer.informations_accepted,
-    })
 
     return { lawyer }
   }

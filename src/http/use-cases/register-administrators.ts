@@ -60,7 +60,7 @@ export class RegisterAdministratorsUseCase {
     await resend.emails.send({
       from: 'OAB INSS DIGITAL <inssdigital@oabma.com.br>',
       // TODO: Depois alterar o e-mail para produção
-      to: 'hilquiasfmelo@hotmail.com',
+      to: env.NODE_ENV === 'production' ? email : 'hilquiasfmelo@hotmail.com',
       subject: 'Cadastro Administrativo ✅',
       react: TemplateSendEmailAdministrator({
         name,
