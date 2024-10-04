@@ -1,7 +1,6 @@
 import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
-import fastifyRateLimite from '@fastify/rate-limit'
 import { fastify } from 'fastify'
 import { ZodError } from 'zod'
 
@@ -25,11 +24,6 @@ app.register(fastifyCors, {
 
 app.register(fastifyCookie)
 
-app.register(fastifyRateLimite, {
-  max: 15,
-  timeWindow: '1 minute',
-})
-
 app.register(appRouter)
 
 app.setErrorHandler((error, _request, reply) => {
@@ -38,13 +32,6 @@ app.setErrorHandler((error, _request, reply) => {
     return reply.status(400).send({
       message: 'Houve um erro na validação dos dados.',
       issues: error.format(),
-    })
-  }
-
-  // Verifica se o erro é um erro de limite de requisições.
-  if (error.statusCode === 429) {
-    return reply.status(429).send({
-      message: 'Limite de requisições excedido. Tente novamente mais tarde.',
     })
   }
 
