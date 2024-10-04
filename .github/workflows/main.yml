@@ -61,6 +61,7 @@ jobs:
         script: |
           cd ~/oabma/apis/api-nomos
           pnpm install
+          pnpm prisma generate
           pnpm prisma migrate deploy
           pm2 restart api-nomos
 
