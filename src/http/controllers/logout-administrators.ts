@@ -1,21 +1,33 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
+import { ResourceNotFound } from '../use-cases/errors/resource-not-found-error'
 import { makeLogoutAdministrator } from './factories/make-logout-administrators'
 
 export async function logoutAdmininistratorControllers(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const logoutAdministratorUseCase = makeLogoutAdministrator()
+  try {
+    const logoutAdministratorUseCase = makeLogoutAdministrator()
 
-  await logoutAdministratorUseCase.execute({
-    administratorId: request.user.sub,
-  })
-
-  return reply
-    .clearCookie('@nomos-auth', {
-      path: '/',
+    await logoutAdministratorUseCase.execute({
+      administratorId: request.user.sub,
     })
-    .status(200)
-    .send()
+
+    return reply
+      .clearCookie('@nomos-auth', {
+        path: '/',
+      })
+      .status(200)
+      .send()
+  } catch (err) {
+    if (err instanceof ResourceNotFound) {
+      return reply.status(400).send({
+        message: err.message,
+      })
+    }
+
+    // Uma camada acima tratará esse erro.
+    throw err
+  }
 }

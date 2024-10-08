@@ -2,11 +2,9 @@ import type { Lawyers } from '@prisma/client'
 
 import { env } from '@/env'
 import { resend } from '@/lib/resend'
-// import { resend } from '@/lib/resend'
 import type { LawyersInterface } from '@/repositories/interfaces/lawyers-interface'
 import { TemplateSendEmailLawyers } from '@/utils/template-send-email-lawyers'
 
-// import { TemplateSendEmailLawyers } from '@/utils/template-send-email-lawyers'
 import { LawyerAlreadyRegistered } from './errors/lawyer-already-registered'
 import { NotConfirmLawyerError } from './errors/not-confirm-lawyer-error'
 import { ResourceNotFound } from './errors/resource-not-found-error'

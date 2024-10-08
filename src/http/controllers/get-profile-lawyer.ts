@@ -33,5 +33,8 @@ export async function getProfileLawyerControllers(
         message: err.message,
       })
     }
+
+    // Uma camada acima tratará esse erro.
+    throw err
   }
 }

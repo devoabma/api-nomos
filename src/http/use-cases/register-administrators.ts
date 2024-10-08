@@ -3,12 +3,9 @@ import { hash } from 'bcryptjs'
 
 import { env } from '@/env'
 import { resend } from '@/lib/resend'
-// import { resend } from '@/lib/resend'
 import type { AdministratorsInterface } from '@/repositories/interfaces/administrators-interface'
-// import { getCurrentDateInfo } from '@/utils/get-current-date-info'
 import { TemplateSendEmailAdministrator } from '@/utils/template-send-email-administrator'
 
-// import { getCurrentDateInfo } from '@/utils/get-current-date-info'
 import { AdministradorAlreadyExists } from './errors/administrator-already-exists'
 import { SecurityCodeIncorrect } from './errors/security-code-incorrect'
 
@@ -38,8 +35,6 @@ export class RegisterAdministratorsUseCase {
     const password_hash = await hash(password, 6)
     const code_hash = await hash(securityCode, 6)
 
-    // const { day, fullMonth, year } = getCurrentDateInfo()
-
     // Busca no banco de dados se tem algum usuário criado com esse e-mail.
     const searchAdministrator =
       await this.administratorsInterface.findByEmail(email)
@@ -53,8 +48,6 @@ export class RegisterAdministratorsUseCase {
     if (securityCode !== registredCode) {
       throw new SecurityCodeIncorrect()
     }
-
-    // const { day, fullMonth, year } = getCurrentDateInfo()
 
     // Dispara e-mail de confirmação de registro
     await resend.emails.send({

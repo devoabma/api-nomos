@@ -29,6 +29,8 @@ export async function registerAdmininistratorControllers(
       password,
       securityCode,
     })
+
+    return reply.status(201).send()
   } catch (err) {
     if (err instanceof SecurityCodeIncorrect) {
       return reply.status(400).send({
@@ -45,6 +47,4 @@ export async function registerAdmininistratorControllers(
     // Uma camada acima tratará esse erro.
     throw err
   }
-
-  return reply.status(201).send()
 }

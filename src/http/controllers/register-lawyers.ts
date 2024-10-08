@@ -27,6 +27,8 @@ export async function registerLawyerControllers(
       oab,
       birth,
     })
+
+    return reply.status(201).send()
   } catch (err) {
     if (err instanceof AxiosError) {
       return reply.status(404).send({
@@ -52,8 +54,7 @@ export async function registerLawyerControllers(
       })
     }
 
+    // Uma camada acima tratará esse erro.
     throw err
   }
-
-  return reply.status(201).send()
 }
