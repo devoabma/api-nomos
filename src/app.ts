@@ -26,8 +26,8 @@ app.register(fastifyCors, {
 app.register(fastifyCookie)
 
 app.register(fastifyRateLimit, {
-  max: 15,
-  timeWindow: '1 minute',
+  max: 100,
+  timeWindow: '5 minute',
 })
 
 app.register(appRouter)
